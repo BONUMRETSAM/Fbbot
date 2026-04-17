@@ -1,0 +1,51 @@
+name: 🌐 Auto Page Bot Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 📥 Cloner le projet
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # ⚙️ Installer Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 📦 Installer dépendances
+      - name: Install dependencies
+        run: npm install
+
+      # 🏗️ Build du site (frontend)
+      - name: Build project
+        run: npm run build || echo "No build step"
+
+      # 🔐 Variables d’environnement
+      - name: Create .env file
+        run: |
+          echo "PORT=3000" >> .env
+          echo "PAGE_ACCESS_TOKEN=${{ secrets.PAGE_ACCESS_TOKEN }}" >> .env
+          echo "VERIFY_TOKEN=${{ secrets.VERIFY_TOKEN }}" >> .env
+          echo "APP_SECRET=${{ secrets.APP_SECRET }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+
+      # 🚀 Déploiement (Render)
+      - name: Deploy to Render
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+      # 🔁 Ou Vercel (optionnel)
+      - name: Deploy to Vercel
+        if: false
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
