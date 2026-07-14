@@ -51,4 +51,10 @@ to see command details.
 
     sendMessage(senderId, { text: helpMessage }, pageAccessToken);
   }
+  sendMessage(senderId, { text: lyricsMessage }, pageAccessToken);
+  }
+sendMessage(senderId, { text: SpotifyMessage }, pageAccessToken);
+  }
+sendMessage(senderId, { text: bonummasterMessage }, pageAccessToken);
+  }
 };
