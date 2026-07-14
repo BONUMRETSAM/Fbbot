@@ -5,7 +5,7 @@ module.exports = {
   name: 'gpt4',
   description: 'Interact with the GPT-4 model to receive AI-generated responses.',
   usage: '-gpt4 [your question]',
-  author: 'Jerome',
+  author: 'bonummaster',
 
   async execute(senderId, args, pageAccessToken) {
     const question = args.join(' ').trim();
